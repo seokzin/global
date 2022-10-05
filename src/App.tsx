@@ -1,6 +1,6 @@
 import { ThemeProvider } from 'styled-components';
 
-import { Button } from './components';
+import { Button, Header } from './components';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/theme';
 
@@ -11,6 +11,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Layout>
         <GlobalStyle />
+        <Header />
         Hello
         <Button />
       </Layout>
