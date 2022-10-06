@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 import { getCharacterPerPage } from '../../api/character';
 import Card from './Card';
 import { Character } from '../../api/character';
+import { listState } from '../../atom/list';
 
 const List = () => {
+  const [list, setList] = useRecoilState(listState);
+
   const [page] = useState(3);
   const { data, isLoading, isError } = useQuery<Character[]>(
     ['characters', page],
@@ -18,6 +22,12 @@ const List = () => {
   if (isError) {
     return <div>Error</div>;
   }
+
+  useEffect(() => {
+    if (data) {
+      setList(data);
+    }
+  }, [data, setList]);
 
   return (
     <div>
