@@ -1,17 +1,14 @@
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { getCharacterPerPage } from '../../api/character';
-
-interface Character {
-  name: string;
-  aliases: string;
-  title: string;
-  books: string;
-  tvSeries: string;
-}
+import Card from './Card';
+import { Character } from '../../api/character';
 
 const List = () => {
-  const { data, isLoading, isError } = useQuery<Character>('character', () =>
-    getCharacterPerPage(1)
+  const [page] = useState(3);
+  const { data, isLoading, isError } = useQuery<Character[]>(
+    ['characters', page],
+    () => getCharacterPerPage(page)
   );
 
   if (isLoading) {
@@ -22,9 +19,13 @@ const List = () => {
     return <div>Error</div>;
   }
 
-  console.log(data);
-
-  return <div>List</div>;
+  return (
+    <div>
+      {data?.map((character) => (
+        <Card key={character.name} {...character} />
+      ))}
+    </div>
+  );
 };
 
 export default List;
