@@ -1,6 +1,15 @@
 import { Character } from '../../api/character';
 
-const Card = (character: Character) => {
+interface CardProps {
+  character: Required<
+    Pick<
+      Partial<Character>,
+      'name' | 'aliases' | 'titles' | 'books' | 'tvSeries'
+    >
+  >;
+}
+
+const Card = (character: CardProps) => {
   const { name, aliases, titles, books, tvSeries } = character;
 
   return (
