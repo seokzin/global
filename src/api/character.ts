@@ -11,6 +11,8 @@ export interface Character {
   died: string;
 }
 
+export const PAGE_SIZE = 20;
+
 const parseIdFromUrl = (url: string) => url.split('/').at(-1) as string;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,7 +37,7 @@ export const getCharacters = (): Promise<Character> =>
 export const getCharacterById = (id: number) =>
   api.get(`/${id}`).then((res) => characterFactory(res.data));
 
-export const getCharacterPerPage = (page: number, pageSize = 10) =>
+export const getCharacterPerPage = (page: number, pageSize = PAGE_SIZE) =>
   api
     .get(`?page=${page}&pageSize=${pageSize}`)
     .then((response) => response.data.map(characterFactory));
