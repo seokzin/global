@@ -1,40 +1,54 @@
-import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { useQuery } from 'react-query';
-import { getCharacterPerPage } from '../../api/character';
-import Card from './Card';
+import { useCallback, useEffect } from 'react';
+import { useInfiniteQuery } from 'react-query';
+import { getCharacterPerPage, PAGE_SIZE } from '../../api/character';
 import { Character } from '../../api/character';
-import { listState } from '../../atom/list';
+import Card from '../Card';
 
 const List = () => {
-  const [list, setList] = useRecoilState(listState);
+  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
+    useInfiniteQuery(
+      'characters',
+      ({ pageParam = 1 }) => getCharacterPerPage(pageParam),
+      {
+        getNextPageParam: (lastPage, pages) => {
+          if (lastPage.length < PAGE_SIZE) {
+            return undefined;
+          }
 
-  const [page] = useState(3);
-  const { data, isLoading, isError } = useQuery<Character[]>(
-    ['characters', page],
-    () => getCharacterPerPage(page)
-  );
+          return pages.length + 1;
+        },
+      }
+    );
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error</div>;
-  }
+  const handleScroll = useCallback(() => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight - 5) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage]);
 
   useEffect(() => {
-    if (data) {
-      setList(data);
-    }
-  }, [data, setList]);
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   return (
-    <div>
-      {data?.map((character) => (
-        <Card key={character.name} {...character} />
+    <>
+      {data?.pages.map((page: Character[], index: number) => (
+        <div key={index}>
+          {page.map((character) => (
+            <Card key={character.id} {...character} />
+          ))}
+        </div>
       ))}
-    </div>
+      <div>
+        <p>Is Loading: {isFetching ? 'Yes' : 'No'}</p>
+        <p>Is Loading Next Page: {isFetchingNextPage ? 'Yes' : 'No'}</p>
+        <p>Has Next Page: {hasNextPage ? 'Yes' : 'No'}</p>
+      </div>
+    </>
   );
 };
 
