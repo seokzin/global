@@ -10,7 +10,7 @@ const Filter = () => {
       {Object.entries(filter).map(([key, value]) => (
         <Badge
           label={key}
-          onClick={() => setFilter({ ...filter, [key]: value })}
+          onClick={() => setFilter({ ...filter, [key]: !value.state })}
         />
       ))}
     </div>
