@@ -10,17 +10,22 @@ import { characterListState } from './../../atom/characterList';
 
 const List = () => {
   const filters = useRecoilValue(filterState);
+  const url = new URL(window.location.href);
+  const pageQuery = url.searchParams.get('page');
 
   const { data, fetchNextPage, isFetching } = useInfiniteQuery(
     'characters',
-    ({ pageParam = 1 }) => getCharacterPerPage(pageParam),
+    ({ pageParam = pageQuery ? pageQuery : 1 }) =>
+      getCharacterPerPage(pageParam),
     {
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.length < PAGE_SIZE) {
           return undefined;
         }
 
-        return pages.length + 1;
+        const lastPageParam = pages.at(-1).at(-1).id / PAGE_SIZE;
+
+        return lastPageParam + 1;
       },
     }
   );
