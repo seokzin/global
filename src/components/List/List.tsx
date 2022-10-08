@@ -11,8 +11,7 @@ import { Loading } from './List.styled';
 
 const List = () => {
   const filters = useRecoilValue(filterState);
-  const url = new URL(window.location.href);
-  const pageQuery = url.searchParams.get('page');
+  const pageQuery = new URL(window.location.href).searchParams.get('page');
 
   const { data, fetchNextPage, isFetching } = useInfiniteQuery(
     'characters',
@@ -23,9 +22,7 @@ const List = () => {
         if (lastPage.length < PAGE_SIZE) {
           return undefined;
         }
-
         const lastPageParam = pages.at(-1).at(-1).id / PAGE_SIZE;
-
         return lastPageParam + 1;
       },
     }
