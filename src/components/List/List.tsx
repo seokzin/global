@@ -1,16 +1,19 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilValue, useRecoilState } from 'recoil';
 
 import { getCharacterPerPage, PAGE_SIZE, Character } from '../../api/character';
 import { filterState } from '../../atom/filter';
 import { characterListState } from '../../atom/characterList';
+import debounce from '../../utils/debounce';
 import { Card } from '../../components';
 
 import { Loading } from './List.styled';
 
 const List = () => {
   const filters = useRecoilValue(filterState);
+  const [filteredList, setFilteredList] = useRecoilState(characterListState);
+
   const pageQuery = new URL(window.location.href).searchParams.get('page');
 
   const { data, fetchNextPage, isFetching } = useInfiniteQuery(
@@ -27,16 +30,7 @@ const List = () => {
       },
     }
   );
-
-  const debounce = useCallback((func: () => void, delay: number) => {
-    let timer: NodeJS.Timeout;
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (...args: any) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => func.apply(this, args), delay);
-    };
-  }, []);
+  const flattenData: Character[] = data ? data.pages.flat() : [];
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -52,9 +46,6 @@ const List = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [debounce, fetchNextPage]);
-
-  const flattenData: Character[] = data ? data.pages.flat() : [];
-  const [filteredList, setFilteredList] = useRecoilState(characterListState);
 
   useEffect(() => {
     const filtered = flattenData.filter((character) => {
