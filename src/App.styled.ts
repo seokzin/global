@@ -5,6 +5,7 @@ export const Layout = styled.div`
   margin: 0 auto;
 
   min-width: 360px;
+  max-width: 1024px;
 `;
 
 export const GapBox = styled.div`
