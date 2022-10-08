@@ -32,7 +32,7 @@ const api = axios.create({
 });
 
 export const getCharacters = (): Promise<Character> =>
-  api.get('').then((response) => response.data.map(characterFactory));
+  api.get('').then((res) => res.data.map(characterFactory));
 
 export const getCharacterById = (id: number) =>
   api.get(`/${id}`).then((res) => characterFactory(res.data));
@@ -40,4 +40,4 @@ export const getCharacterById = (id: number) =>
 export const getCharacterPerPage = (page: number, pageSize = PAGE_SIZE) =>
   api
     .get(`?page=${page}&pageSize=${pageSize}`)
-    .then((response) => response.data.map(characterFactory));
+    .then((res) => res.data.map(characterFactory));
