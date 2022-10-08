@@ -5,6 +5,7 @@ export const Layout = styled.button<{ active: boolean }>`
   border: 1px solid ${({ active }) => (active ? '#0099FF' : '#aaaaaa')};
   padding: 0.3rem 0.5rem;
   border-radius: 0.2rem;
+  cursor: pointer;
 `;
 
 export const Label = styled.p<{ active: boolean }>`
