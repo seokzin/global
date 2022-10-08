@@ -6,7 +6,7 @@ interface ButtonProps {
   disable?: boolean;
 }
 
-const Button = ({ label, onClick, disable = true }: ButtonProps) => {
+const Button = ({ label, onClick, disable = false }: ButtonProps) => {
   return (
     <Layout onClick={onClick} disable={disable}>
       <p>{label}</p>
