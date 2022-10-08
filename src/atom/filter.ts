@@ -5,7 +5,7 @@ export interface FilterOption {
   label: string;
 }
 
-export const filterState = atom({
+export const filterState = atom<Record<string, FilterOption>>({
   key: 'filterState',
   default: {
     alive: {
@@ -20,5 +20,5 @@ export const filterState = atom({
       active: false,
       label: '# TV 시리즈 없음',
     },
-  } as Record<string, FilterOption>,
+  },
 });
