@@ -30,19 +30,30 @@ const List = () => {
     }
   );
 
-  const handleScroll = useCallback(() => {
-    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight - 5) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage]);
+  const debounce = useCallback((func: () => void, delay: number) => {
+    let timer: NodeJS.Timeout;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (...args: any) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => func.apply(this, args), delay);
+    };
+  }, []);
 
   useEffect(() => {
+    const handleScroll = debounce(() => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight
+      )
+        return;
+
+      fetchNextPage();
+    }, 100);
+
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [handleScroll]);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [debounce, fetchNextPage]);
 
   const flattenData: Character[] = data ? data.pages.flat() : [];
   const [filteredList, setFilteredList] = useRecoilState(characterListState);
