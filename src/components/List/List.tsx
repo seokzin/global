@@ -43,7 +43,7 @@ const List = () => {
         return;
 
       fetchNextPage();
-    }, 100);
+    }, 300);
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
