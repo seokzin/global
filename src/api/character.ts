@@ -21,7 +21,7 @@ const characterFactory = (raw: any): Character => ({
   name: raw.name,
   aliases: raw.aliases,
   titles: raw.titles,
-  books: raw.books,
+  books: raw.books[0] === '' ? [] : raw.books,
   tvSeries: raw.tvSeries[0] === '' ? [] : raw.tvSeries,
   gender: raw.gender,
   died: raw.died,
