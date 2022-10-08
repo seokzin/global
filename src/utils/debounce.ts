@@ -1,5 +1,5 @@
 const debounce = (func: () => void, delay: number) => {
-  let timer: NodeJS.Timeout;
+  let timer: ReturnType<typeof setTimeout>;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (...args: any) => {
