@@ -37,7 +37,7 @@ const Filter = () => {
         ))}
       </GapBox>
 
-      <Button label="삭제 초기화" onClick={onReset} />
+      <Button label="초기화" onClick={onReset} />
     </FlexBox>
   );
 };
