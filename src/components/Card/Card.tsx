@@ -10,14 +10,14 @@ import {
 import Button from './../Button/Button';
 
 const Card = (character: Character) => {
-  const { name, aliases, titles, books, tvSeries } = character;
+  const { name, gender, aliases, titles, books, tvSeries } = character;
 
   return (
     <Layout>
       <FlexBetweenBox>
         <GapBox>
           <p>
-            <Title>name : </Title> {name}
+            <Title>name : </Title> {name} {gender === 'Female' ? '♀' : '♂'}
           </p>
           <p>
             <Title>aliases : </Title> {aliases.join(', ')}
