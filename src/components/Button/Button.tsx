@@ -9,7 +9,7 @@ interface ButtonProps {
 const Button = ({ label, onClick, disable = true }: ButtonProps) => {
   return (
     <Layout onClick={onClick} disable={disable}>
-      {label}
+      <p>{label}</p>
     </Layout>
   );
 };

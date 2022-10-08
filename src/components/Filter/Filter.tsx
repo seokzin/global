@@ -7,8 +7,28 @@ import type { FilterOption } from './../../atom/filter';
 const Filter = () => {
   const [filter, setFilter] = useRecoilState(filterState);
 
-  const onClick = (key: string, value: FilterOption) => {
-    setFilter({ ...filter, [key]: value });
+  const onClickFilter = (key: string, value: FilterOption) => {
+    setFilter({
+      ...filter,
+      [key]: {
+        ...value,
+        active: !value.active,
+      },
+    });
+  };
+
+  const resetFilter = () => {
+    const defaultFilter = Object.keys(filter).reduce((acc, cur) => {
+      return {
+        ...acc,
+        [cur]: {
+          ...filter[cur],
+          active: false,
+        },
+      };
+    }, {});
+
+    setFilter(defaultFilter);
   };
 
   return (
@@ -17,13 +37,13 @@ const Filter = () => {
         {Object.entries(filter).map(([key, value]) => (
           <Badge
             label={value.label}
-            onClick={() => onClick(key, value)}
+            onClick={() => onClickFilter(key, value)}
             active={value.active}
           />
         ))}
       </GapBox>
 
-      <Button label="초기화" onClick={() => setFilter({})} />
+      <Button label="초기화" onClick={resetFilter} />
     </FlexBox>
   );
 };

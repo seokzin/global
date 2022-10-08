@@ -1,5 +1,12 @@
 import { Character } from '../../api/character';
-import { Layout, FlexBox, Title, GapBox, FlexBetweenBox } from './Card.styled';
+import {
+  Layout,
+  FlexBox,
+  Title,
+  GapBox,
+  FlexBetweenBox,
+  ButtonBox,
+} from './Card.styled';
 import Button from './../Button/Button';
 
 const Card = (character: Character) => {
@@ -9,27 +16,29 @@ const Card = (character: Character) => {
     <Layout>
       <FlexBetweenBox>
         <GapBox>
-          <h5>
+          <p>
             <Title>name : </Title> {name}
-          </h5>
-          <h6>
+          </p>
+          <p>
             <Title>aliases : </Title> {aliases.join(', ')}
-          </h6>
-          <h6>
+          </p>
+          <p>
             <Title>title : </Title> {titles.join(', ')}
-          </h6>
+          </p>
 
           <FlexBox>
-            <h6>
+            <p>
               <Title>books : </Title> {books.length}
-            </h6>
-            <h6>
+            </p>
+            <p>
               <Title>tvSeries : </Title> {tvSeries.length}
-            </h6>
+            </p>
           </FlexBox>
         </GapBox>
 
-        <Button label="삭제" onClick={() => undefined} />
+        <ButtonBox>
+          <Button label="삭제" onClick={() => undefined} />
+        </ButtonBox>
       </FlexBetweenBox>
     </Layout>
   );

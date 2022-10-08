@@ -11,6 +11,9 @@ export const Layout = styled.button<{ disable: boolean }>`
   cursor: pointer;
   height: 2rem;
 
+  white-space: nowrap;
+  text-align: center;
+
   :hover {
     background-color: #0099ffcc;
   }

@@ -3,7 +3,8 @@ import styled from 'styled-components';
 export const Layout = styled.div`
   padding: 1rem;
   margin: 0 auto;
-  max-width: 800px;
+
+  min-width: 360px;
 `;
 
 export const GapBox = styled.div`
