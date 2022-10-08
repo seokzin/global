@@ -9,6 +9,7 @@ export const Layout = styled.button<{ disable: boolean }>`
   border-radius: 0.2rem;
   font-size: 15px;
   cursor: pointer;
+  height: 2rem;
 
   :hover {
     background-color: #0099ffcc;

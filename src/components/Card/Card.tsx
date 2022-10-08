@@ -1,28 +1,37 @@
 import { Character } from '../../api/character';
+import { Layout, FlexBox, Title, GapBox, FlexBetweenBox } from './Card.styled';
+import Button from './../Button/Button';
 
-interface CardProps {
-  character: Required<
-    Pick<
-      Partial<Character>,
-      'name' | 'aliases' | 'titles' | 'books' | 'tvSeries'
-    >
-  >;
-}
-
-const Card = (character: CardProps) => {
+const Card = (character: Character) => {
   const { name, aliases, titles, books, tvSeries } = character;
 
   return (
-    <div>
-      <div>
-        <h5>{name}</h5>
-        <h6>{aliases.join(', ')}</h6>
-        <h6>{titles.join(', ')}</h6>
-        <p>
-          {books.length} books, {tvSeries.length} tv series
-        </p>
-      </div>
-    </div>
+    <Layout>
+      <FlexBetweenBox>
+        <GapBox>
+          <h5>
+            <Title>name : </Title> {name}
+          </h5>
+          <h6>
+            <Title>aliases : </Title> {aliases.join(', ')}
+          </h6>
+          <h6>
+            <Title>title : </Title> {titles.join(', ')}
+          </h6>
+
+          <FlexBox>
+            <h6>
+              <Title>books : </Title> {books.length}
+            </h6>
+            <h6>
+              <Title>tvSeries : </Title> {tvSeries.length}
+            </h6>
+          </FlexBox>
+        </GapBox>
+
+        <Button label="삭제" onClick={() => undefined} />
+      </FlexBetweenBox>
+    </Layout>
   );
 };
 

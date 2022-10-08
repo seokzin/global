@@ -23,7 +23,7 @@ const Filter = () => {
         ))}
       </GapBox>
 
-      <Button label="필터 초기화" onClick={() => setFilter({})} />
+      <Button label="초기화" onClick={() => setFilter({})} />
     </FlexBox>
   );
 };
