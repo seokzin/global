@@ -13,24 +13,24 @@ import { Loading } from './List.styled';
 const List = () => {
   const filters = useRecoilValue(filterState);
   const [filteredList, setFilteredList] = useRecoilState(characterListState);
-
   const pageQuery = new URL(window.location.href).searchParams.get('page');
 
   const { data, fetchNextPage, isFetching } = useInfiniteQuery(
     'characters',
-    ({ pageParam = pageQuery ? pageQuery : 1 }) =>
+    ({ pageParam = pageQuery ? Number(pageQuery) : 1 }) =>
       getCharacterPerPage(pageParam),
     {
-      getNextPageParam: (lastPage, pages) => {
+      getNextPageParam: (lastPage: Character[], pages: Character[][]) => {
         if (lastPage.length < PAGE_SIZE) {
           return undefined;
         }
-        const lastPageParam = pages.at(-1).at(-1).id / PAGE_SIZE;
+
+        const lastPageParam =
+          Number(pages[pages.length - 1][PAGE_SIZE - 1].id) / PAGE_SIZE;
         return lastPageParam + 1;
       },
     }
   );
-  const flattenData: Character[] = data ? data.pages.flat() : [];
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -45,10 +45,12 @@ const List = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [debounce, fetchNextPage]);
+  }, [fetchNextPage]);
 
   useEffect(() => {
-    const filtered = flattenData.filter((character) => {
+    const newData: Character[] = data?.pages.at(-1) || [];
+
+    const newFiltered = newData.filter((character) => {
       const isFemale = filters.female.active
         ? character.gender === 'Female'
         : true;
@@ -60,7 +62,7 @@ const List = () => {
       return isFemale && isAlive && isNoTvSeries;
     });
 
-    setFilteredList(filtered);
+    setFilteredList((prev) => [...prev, ...newFiltered]);
   }, [data, filters]);
 
   return (
