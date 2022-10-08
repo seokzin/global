@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 
 export const Layout = styled.div`
-  @media ${(props) => props.theme.mobile} {
-    background-color: ${(props) => props.theme.subColor};
-  }
+  padding: 1rem;
+`;
+
+export const GapBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;

@@ -1,5 +1,7 @@
+import { Layout } from './Header.styled';
+
 const Header = () => {
-  return <div>Header</div>;
+  return <Layout>MUSINSA</Layout>;
 };
 
 export default Header;

@@ -3,11 +3,11 @@ import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import { Button, Header, List } from './components';
+import { Header, Filter, List } from './components';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/theme';
 
-import { Layout } from './App.styled';
+import { Layout, GapBox } from './App.styled';
 
 const App = () => {
   const client = new QueryClient();
@@ -20,10 +20,12 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <Layout>
             <GlobalStyle />
-            <Header />
-            Hello
-            <List />
-            <Button />
+
+            <GapBox>
+              <Header />
+              <Filter />
+              <List />
+            </GapBox>
           </Layout>
         </ThemeProvider>
       </QueryClientProvider>
