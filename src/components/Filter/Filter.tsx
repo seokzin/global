@@ -3,13 +3,15 @@ import { filterState } from '../../atom/filter';
 import { Badge, Button } from '../../components';
 import { FlexBox, GapBox } from './Filter.styled';
 import type { FilterOption } from './../../atom/filter';
+import { useEffect, useState } from 'react';
 
 const Filter = () => {
-  const [filter, setFilter] = useRecoilState(filterState);
+  const [filters, setFilters] = useRecoilState(filterState);
+  const [canReset, setCanReset] = useState(false);
 
   const onClickFilter = (key: string, value: FilterOption) => {
-    setFilter({
-      ...filter,
+    setFilters({
+      ...filters,
       [key]: {
         ...value,
         active: !value.active,
@@ -17,24 +19,35 @@ const Filter = () => {
     });
   };
 
-  const resetFilter = () => {
-    const defaultFilter = Object.keys(filter).reduce((acc, cur) => {
+  const resetFilters = () => {
+    const defaultFilter = Object.keys(filters).reduce((acc, cur) => {
       return {
         ...acc,
         [cur]: {
-          ...filter[cur],
+          ...filters[cur],
           active: false,
         },
       };
     }, {});
 
-    setFilter(defaultFilter);
+    setFilters(() => defaultFilter);
   };
+
+  useEffect(() => {
+    const state = Object.values(filters).reduce((acc, cur) => {
+      if (cur.active) {
+        acc = true;
+      }
+      return acc;
+    }, false);
+
+    setCanReset(state);
+  }, [filters]);
 
   return (
     <FlexBox>
       <GapBox>
-        {Object.entries(filter).map(([key, value]) => (
+        {Object.entries(filters).map(([key, value]) => (
           <Badge
             key={key}
             label={value.label}
@@ -44,7 +57,7 @@ const Filter = () => {
         ))}
       </GapBox>
 
-      <Button label="초기화" onClick={resetFilter} />
+      <Button label="초기화" onClick={resetFilters} disable={!canReset} />
     </FlexBox>
   );
 };
