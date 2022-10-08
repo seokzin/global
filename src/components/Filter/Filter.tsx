@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { filterState, FilterOption } from '../../atom/filter';
+import { deletedIdxState } from '../../atom/deletedIdx';
 import { Badge, Button } from '../../components';
 
 import { FlexBox, GapBox } from './Filter.styled';
 
 const Filter = () => {
   const [filters, setFilters] = useRecoilState(filterState);
-  const [canReset, setCanReset] = useState(false);
+  const setDeletedIdx = useSetRecoilState(deletedIdxState);
 
   const onClickFilter = (key: string, value: FilterOption) => {
     setFilters({
@@ -20,30 +20,9 @@ const Filter = () => {
     });
   };
 
-  const resetFilters = () => {
-    const defaultFilter = Object.keys(filters).reduce((acc, cur) => {
-      return {
-        ...acc,
-        [cur]: {
-          ...filters[cur],
-          active: false,
-        },
-      };
-    }, {});
-
-    setFilters(() => defaultFilter);
+  const onReset = () => {
+    setDeletedIdx(() => []);
   };
-
-  useEffect(() => {
-    const state = Object.values(filters).reduce((acc, cur) => {
-      if (cur.active) {
-        acc = true;
-      }
-      return acc;
-    }, false);
-
-    setCanReset(state);
-  }, [filters]);
 
   return (
     <FlexBox>
@@ -58,7 +37,7 @@ const Filter = () => {
         ))}
       </GapBox>
 
-      <Button label="초기화" onClick={resetFilters} disable={!canReset} />
+      <Button label="삭제 초기화" onClick={onReset} />
     </FlexBox>
   );
 };

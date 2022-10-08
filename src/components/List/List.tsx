@@ -5,6 +5,7 @@ import { useRecoilValue, useRecoilState } from 'recoil';
 import { getCharacterPerPage, PAGE_SIZE, Character } from '../../api/character';
 import { filterState } from '../../atom/filter';
 import { characterListState } from '../../atom/characterList';
+import { deletedIdxState } from '../../atom/deletedIdx';
 import debounce from '../../utils/debounce';
 import { Card } from '../../components';
 
@@ -12,6 +13,7 @@ import { Loading } from './List.styled';
 
 const List = () => {
   const filters = useRecoilValue(filterState);
+  const deletedIdx = useRecoilValue(deletedIdxState);
   const [filteredList, setFilteredList] = useRecoilState(characterListState);
   const pageQuery = new URL(window.location.href).searchParams.get('page');
 
@@ -65,8 +67,10 @@ const List = () => {
     setFilteredList((prev) => [...prev, ...newFiltered]);
   }, [data]);
 
+  const flatRawData = data?.pages.flat() || [];
+
   useEffect(() => {
-    const newFiltered = filteredList.filter((character) => {
+    const newFiltered = flatRawData.filter((character) => {
       const isFemale = filters.female.active
         ? character.gender === 'Female'
         : true;
@@ -78,8 +82,12 @@ const List = () => {
       return isFemale && isAlive && isNoTvSeries;
     });
 
-    setFilteredList(newFiltered);
-  }, [filters]);
+    const newRemoved = newFiltered.filter((character) => {
+      return !deletedIdx.includes(character.id);
+    });
+
+    setFilteredList(newRemoved);
+  }, [filters, deletedIdx]);
 
   return (
     <div>

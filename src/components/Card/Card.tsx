@@ -2,6 +2,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { Button } from '../../components';
 import { characterListState } from './../../atom/characterList';
+import { deletedIdxState } from '../../atom/deletedIdx';
 import type { Character } from '../../api/character';
 
 import {
@@ -15,11 +16,12 @@ import {
 
 const Card = (character: Character) => {
   const setFilteredList = useSetRecoilState(characterListState);
-
+  const setDeletedIdx = useSetRecoilState(deletedIdxState);
   const { id, name, gender, aliases, titles, books, tvSeries } = character;
 
   const handleRemove = () => {
     setFilteredList((prev) => prev.filter((item) => item.id !== id));
+    setDeletedIdx((prev) => [...prev, id]);
   };
 
   return (
