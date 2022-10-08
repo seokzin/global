@@ -1,12 +1,13 @@
 import { useCallback, useEffect } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { getCharacterPerPage, PAGE_SIZE } from '../../api/character';
-import { Character } from '../../api/character';
+
+import { getCharacterPerPage, PAGE_SIZE, Character } from '../../api/character';
 import { filterState } from '../../atom/filter';
-import Card from '../Card';
+import { characterListState } from '../../atom/characterList';
+import { Card } from '../../components';
+
 import { Loading } from './List.styled';
-import { characterListState } from './../../atom/characterList';
 
 const List = () => {
   const filters = useRecoilValue(filterState);

@@ -1,7 +1,6 @@
 import { ThemeProvider } from 'styled-components';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { Header, Filter, List } from './components';
 import GlobalStyle from './styles/GlobalStyle';
@@ -15,8 +14,6 @@ const App = () => {
   return (
     <RecoilRoot>
       <QueryClientProvider client={client}>
-        <ReactQueryDevtools />
-
         <ThemeProvider theme={theme}>
           <Layout>
             <GlobalStyle />

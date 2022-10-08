@@ -1,9 +1,10 @@
-import { useRecoilState } from 'recoil';
-import { filterState } from '../../atom/filter';
-import { Badge, Button } from '../../components';
-import { FlexBox, GapBox } from './Filter.styled';
-import type { FilterOption } from './../../atom/filter';
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+
+import { filterState, FilterOption } from '../../atom/filter';
+import { Badge, Button } from '../../components';
+
+import { FlexBox, GapBox } from './Filter.styled';
 
 const Filter = () => {
   const [filters, setFilters] = useRecoilState(filterState);

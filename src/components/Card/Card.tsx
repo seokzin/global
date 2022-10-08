@@ -1,4 +1,9 @@
-import { Character } from '../../api/character';
+import { useSetRecoilState } from 'recoil';
+
+import { Button } from '../../components';
+import { characterListState } from './../../atom/characterList';
+import type { Character } from '../../api/character';
+
 import {
   Layout,
   FlexBox,
@@ -7,9 +12,6 @@ import {
   FlexBetweenBox,
   ButtonBox,
 } from './Card.styled';
-import Button from './../Button/Button';
-import { useSetRecoilState } from 'recoil';
-import { characterListState } from './../../atom/characterList';
 
 const Card = (character: Character) => {
   const setFilteredList = useSetRecoilState(characterListState);
