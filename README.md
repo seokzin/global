@@ -1,5 +1,6 @@
-- TODO
-  - 테스트에 용이하게 List에 array 주입
-  - 테스트 코드 작성
-  - prop 인터페이스로 분리
-  - 무한스크롤 커스텀 훅 분리 + 리스트 주입 받는 형태로 변경
+## Install
+
+```bash
+yarn / yarn install
+yarn start
+```
