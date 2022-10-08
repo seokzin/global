@@ -36,6 +36,7 @@ const Filter = () => {
       <GapBox>
         {Object.entries(filter).map(([key, value]) => (
           <Badge
+            key={key}
             label={value.label}
             onClick={() => onClickFilter(key, value)}
             active={value.active}

@@ -61,7 +61,7 @@ const List = () => {
   return (
     <div>
       {filteredList.map((character: Character) => (
-        <Card {...character} />
+        <Card key={character.id} {...character} />
       ))}
 
       {isFetching && <Loading>Loading..</Loading>}
