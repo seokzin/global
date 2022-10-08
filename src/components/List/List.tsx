@@ -63,12 +63,28 @@ const List = () => {
     });
 
     setFilteredList((prev) => [...prev, ...newFiltered]);
-  }, [data, filters]);
+  }, [data]);
+
+  useEffect(() => {
+    const newFiltered = filteredList.filter((character) => {
+      const isFemale = filters.female.active
+        ? character.gender === 'Female'
+        : true;
+      const isAlive = filters.alive.active ? character.died === '' : true;
+      const isNoTvSeries = filters.noTvSeries.active
+        ? character.tvSeries.length === 0
+        : true;
+
+      return isFemale && isAlive && isNoTvSeries;
+    });
+
+    setFilteredList(newFiltered);
+  }, [filters]);
 
   return (
     <div>
       {filteredList.map((character: Character) => (
-        <Card key={character.id} {...character} />
+        <Card {...character} key={character.id} />
       ))}
 
       {isFetching && <Loading>Loading..</Loading>}
