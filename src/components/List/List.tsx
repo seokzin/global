@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useInfiniteQuery } from 'react-query';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { getCharacterPerPage, PAGE_SIZE } from '../../api/character';
 import { Character } from '../../api/character';
 import { filterState } from '../../atom/filter';
 import Card from '../Card';
 import { Loading } from './List.styled';
+import { characterListState } from './../../atom/characterList';
 
 const List = () => {
   const filters = useRecoilValue(filterState);
@@ -38,8 +39,8 @@ const List = () => {
     };
   }, [handleScroll]);
 
-  const flattenData = data ? data.pages.flat() : [];
-  const [filteredList, setFilteredList] = useState(flattenData);
+  const flattenData: Character[] = data ? data.pages.flat() : [];
+  const [filteredList, setFilteredList] = useRecoilState(characterListState);
 
   useEffect(() => {
     const filtered = flattenData.filter((character) => {
@@ -53,8 +54,6 @@ const List = () => {
 
       return isFemale && isAlive && isNoTvSeries;
     });
-
-    console.log(filtered);
 
     setFilteredList(filtered);
   }, [data, filters]);

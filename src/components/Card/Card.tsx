@@ -8,9 +8,17 @@ import {
   ButtonBox,
 } from './Card.styled';
 import Button from './../Button/Button';
+import { useSetRecoilState } from 'recoil';
+import { characterListState } from './../../atom/characterList';
 
 const Card = (character: Character) => {
-  const { name, gender, aliases, titles, books, tvSeries } = character;
+  const setFilteredList = useSetRecoilState(characterListState);
+
+  const { id, name, gender, aliases, titles, books, tvSeries } = character;
+
+  const handleRemove = () => {
+    setFilteredList((prev) => prev.filter((item) => item.id !== id));
+  };
 
   return (
     <Layout>
@@ -37,7 +45,7 @@ const Card = (character: Character) => {
         </GapBox>
 
         <ButtonBox>
-          <Button label="삭제" onClick={() => undefined} />
+          <Button label="삭제" onClick={handleRemove} />
         </ButtonBox>
       </FlexBetweenBox>
     </Layout>
