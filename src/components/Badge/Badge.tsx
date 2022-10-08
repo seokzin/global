@@ -1,13 +1,16 @@
+import { Layout, Label } from './Badge.styled';
+
 interface BadgeProps {
   label: string;
+  active: boolean;
   onClick: () => void;
 }
 
-const Badge = ({ label, onClick }: BadgeProps) => {
+const Badge = ({ label, active, onClick }: BadgeProps) => {
   return (
-    <div>
-      <button onClick={onClick}>{label}</button>
-    </div>
+    <Layout onClick={onClick} active={active}>
+      <Label active={active}>{label}</Label>
+    </Layout>
   );
 };
 

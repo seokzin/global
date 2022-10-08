@@ -1,17 +1,16 @@
+import { Layout } from './Button.styled';
+
 interface ButtonProps {
   label: string;
   onClick: () => void;
-  icon?: JSX.Element;
+  disable?: boolean;
 }
 
-const Button = ({ label, onClick, icon }: ButtonProps) => {
+const Button = ({ label, onClick, disable = true }: ButtonProps) => {
   return (
-    <div>
-      <button onClick={onClick}>
-        {icon}
-        {label}
-      </button>
-    </div>
+    <Layout onClick={onClick} disable={disable}>
+      {label}
+    </Layout>
   );
 };
 
